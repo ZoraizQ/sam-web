@@ -1,0 +1,6 @@
+numpy 
+torch
+Streamlit
+torchvision
+argparse
+dlib

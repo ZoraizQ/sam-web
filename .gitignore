@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# SAM
+.vscode
+pretrained_models
+
 # C extensions
 *.so
 
