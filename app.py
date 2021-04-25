@@ -6,12 +6,7 @@ import requests
 import sys
 import matplotlib.pyplot as plt
 
-pred_url = "http://9ea3febdf2b5.ngrok.io"
-if pred_url[-1] == '/': # remove / at end if entered
-    pred_url = pred_url[:-1]
-
-pred_url += "/predict"
-
+pred_url = ""
 
 def predict(img_name):
     img_path = "exp/"+img_name
@@ -34,18 +29,33 @@ def predict(img_name):
         return Image.open(img_path)
 
 
+# Keep the state of the button press between actions
+@st.cache(allow_output_mutation=True)
+def get_states():
+    return {"pred_url": None, "pressed": None, "pred": None}
+
+
 st.set_page_config("SAM GAN Web", layout='centered')
 st.title("SAM StyleGAN for Age Regression")
-st.subheader("Upload an image to predict for 11 ages (0-100)")   
+curr_state = get_states()  # gets our cached dictionary
 
+if curr_state["pred_url"] == None:
+    pred_url = st.text_input("Server URI @ngrok.io:")
+    if len(pred_url) > 0:
+        if pred_url[-1] == '/': # remove / at end if entered
+            pred_url = pred_url[:-1]
+
+        pred_url += "/predict"
+        curr_state.update({"pred_url": pred_url})
+else:
+    pred_url = curr_state["pred_url"]
+
+
+st.subheader("Upload an image to predict for 11 ages (0-100)")   
 
 
 uploaded_file = st.file_uploader("Choose an image...", type=("jpg", "png", "jpeg"))
 
-# Keep the state of the button press between actions
-@st.cache(allow_output_mutation=True)
-def get_states():
-    return {"pressed": None, "pred": None}
 
 
 if uploaded_file is not None:
@@ -60,7 +70,6 @@ if uploaded_file is not None:
 
 
     press_button = st.button("Predict Now")
-    curr_state = get_states()  # gets our cached dictionary
 
     if press_button: # any changes need to be performed in place
         with st.spinner("now time travelling with SAM..."):
