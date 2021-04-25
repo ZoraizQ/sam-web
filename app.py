@@ -3,8 +3,6 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 import requests
-import sys
-import matplotlib.pyplot as plt
 
 pred_url = ""
 

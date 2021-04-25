@@ -1,6 +1,6 @@
 numpy 
-torch
 Streamlit
-torchvision
-argparse
-dlib
+# torch
+# torchvision
+# argparse
+# dlib
