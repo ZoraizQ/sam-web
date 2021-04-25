@@ -6,7 +6,7 @@ __pycache__/
 # SAM
 .vscode
 pretrained_models
-*.jpg
+
 
 # C extensions
 *.so
