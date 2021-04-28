@@ -3,6 +3,7 @@ import streamlit as st
 from PIL import Image
 import numpy as np
 import requests
+import base64
 
 server_url = ""
 
@@ -79,13 +80,14 @@ if uploaded_file is not None:
             pred = predict(img_path)
         curr_state.update({"pressed": True, "pred": pred})
 
+
     if st.button("Clear") and curr_state["pressed"]:
         curr_state.update({"pressed": None, "pred": None})
+
 
     if curr_state["pressed"]:
         pred = curr_state["pred"]
         st.image(pred, caption='Result', use_column_width=True) 
-        pred = pred.resize((256*12, 256))
         
         try:
             predrow = np.array(pred)
